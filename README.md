@@ -80,7 +80,7 @@ Answer the following questions, using your code from the previous part as a basi
 
 1. How many new orders (messages with `35 (MsgType) = D (NewOrderSingle)` were submitted to the exchange?
 2. How many were accepted? You can identify accepted orders via `150 (ExecType) = 0 (NEW)` in messages sent by the exchange.
-3. What was the total amount traded in the whole session? You can identify trades via `150 (ExecType) = F (TRADE)`, and the amount traded via the value in `32 (LastQty)`.
+3. What was the total amount traded in the whole session? You can identify trades via `150 (ExecType) = F (FILLED)`, and the amount traded via the value in `32 (LastQty)`.
 
 Please implement each answer as a CLI command.
 

@@ -1,11 +1,36 @@
 ﻿using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Imandra_Dev_Test;
 
 class Program
 {
+
+    static string getJsonMessages(string[] args, string ProtocolHeader)
+    {
+        string retVal = "";
+
+        //Getting files from arguments
+        string fixFileName = args[1];
+        string tagFileName = args[2];
+
+        //Reading and parsing json tags from files
+        string jsonTagsString = File.ReadAllText(tagFileName);
+        JObject jsonTags = JObject.Parse(jsonTagsString);
+
+        //Reading fix file
+        StreamReader sr = new StreamReader(fixFileName);
+        string line = sr.ReadLine();
+
+        retVal = line;
+
+        return retVal;
+    }
+
     static void Main(string[] args)
     {
+        //Define protocol header as a variable for parsing easier - This could be a app setting or a parameter if needed
+        string strProtocolHeader = "8=FIX.4.4";
 
         //Help display text
         StringBuilder strHelp = new StringBuilder();
@@ -28,7 +53,8 @@ class Program
                 case "print-messages":
                     if (args.Length > 2)
                     {
-                        Console.Write("print-messages");
+                        var jsonMessages = getJsonMessages(args, strProtocolHeader);
+                        Console.Write(jsonMessages);
                     }
                     else
                     {

@@ -153,8 +153,8 @@ class Program
         //Convert list of text transactions to list of objects for easy JSON serialization
         List<transactionJson> lisFinalTransactions = getTransactionListFromTextNoTags(lisTransactions);
 
-
-
+        //Query to look for all transactions with value "D" in field "35"
+        retVal = (from item in lisFinalTransactions where item._35 == "D" select item).Count();
         return retVal;
     }
 

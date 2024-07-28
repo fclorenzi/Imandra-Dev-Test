@@ -129,6 +129,7 @@ class Program
                 case "print-messages":
                     if (args.Length > 2)
                     {
+                        //Completed
                         var jsonMessages = getJsonMessages(args, strProtocolHeader);
                         Console.Write(jsonMessages);
                     }

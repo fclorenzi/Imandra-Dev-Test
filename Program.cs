@@ -1,10 +1,43 @@
 ﻿using System.Text;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Imandra_Dev_Test;
 
+class transactionJson
+{
+    [JsonProperty("35")]
+    public string _35 { get; set; }
+}
+
 class Program
 {
+
+    static List<transactionJson> getTransactionListFromTextNoTags(List<string> transactions)
+    {
+        List<transactionJson> retVal = new List<transactionJson>();
+
+        //Iterating the list of text transactions
+        foreach (string trans in transactions)
+        {
+            transactionJson newTrans = new transactionJson();
+
+            //Iterating the fields on each transaction
+            foreach (string field in trans.Split("|"))
+            {
+                //evaluate field number
+                switch (field.Split("=")[0])
+                {
+                    case "35":
+                        newTrans._35 = field.Split("=")[1];
+                        break;
+                }
+            }
+            //Add transaction object to return list
+            retVal.Add(newTrans);
+        }
+        return retVal;
+    }
 
     //Gets the name of the tag from json
     static string getTagName(JObject json, string itemId)
@@ -107,7 +140,21 @@ class Program
     {
         int retVal = 0;
 
-        
+        //Getting files from arguments
+        string fixFileName = args[1];
+
+        //Reading fix file
+        StreamReader sr = new StreamReader(fixFileName);
+        string line = sr.ReadLine();
+
+        //Splitting fix file into a list of text transactions
+        List<string> lisTransactions = (from x in line.Split(ProtocolHeader).Skip(1).ToList() select ProtocolHeader + x.Remove(x.Length - 1)).ToList();
+
+        //Convert list of text transactions to list of objects for easy JSON serialization
+        List<transactionJson> lisFinalTransactions = getTransactionListFromTextNoTags(lisTransactions);
+
+
+
         return retVal;
     }
 

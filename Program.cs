@@ -103,6 +103,14 @@ class Program
         return retVal;
     }
 
+    static int getPart2Question1(string[] args, string ProtocolHeader)
+    {
+        int retVal = 0;
+
+        
+        return retVal;
+    }
+
     static void Main(string[] args)
     {
         //Define protocol header as a variable for parsing easier - This could be a app setting or a parameter if needed
@@ -142,7 +150,8 @@ class Program
                 case "part2-q1":
                     if (args.Length > 1)
                     {
-                        Console.WriteLine("part2-q1");
+                        int answerP1Q1 = getPart2Question1(args, strProtocolHeader);
+                        Console.WriteLine(answerP1Q1);
                     }
                     else
                     {

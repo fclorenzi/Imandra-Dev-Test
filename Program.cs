@@ -10,6 +10,8 @@ class transactionJson
     public string _35 { get; set; }
     [JsonProperty("150")]
     public string _150 { get; set; }
+    [JsonProperty("32")]
+    public string _32 { get; set; }
 }
 
 class Program
@@ -35,6 +37,9 @@ class Program
                         break;
                     case "150":
                         newTrans._150 = field.Split("=")[1];
+                        break;
+                    case "32":
+                        newTrans._32 = field.Split("=")[1];
                         break;
                 }
             }
@@ -185,6 +190,28 @@ class Program
         return retVal;
     }
 
+    static int getPart2Question3(string[] args, string ProtocolHeader)
+    {
+        int retVal = 0;
+
+        //Getting files from arguments
+        string fixFileName = args[1];
+
+        //Reading fix file
+        StreamReader sr = new StreamReader(fixFileName);
+        string line = sr.ReadLine();
+
+        //Splitting fix file into a list of text transactions
+        List<string> lisTransactions = (from x in line.Split(ProtocolHeader).Skip(1).ToList() select ProtocolHeader + x.Remove(x.Length - 1)).ToList();
+
+        //Convert list of text transactions to list of objects for easy JSON serialization
+        List<transactionJson> lisFinalTransactions = getTransactionListFromTextNoTags(lisTransactions);
+
+        //Query to look for all transactions with value "F" in field "150" and summarizing the values from field "32"
+        retVal = (from item in lisFinalTransactions where item._150 == "F" select int.Parse(item._32)).Sum();
+        return retVal;
+    }
+
     static void Main(string[] args)
     {
         //Define protocol header as a variable for parsing easier - This could be a app setting or a parameter if needed
@@ -248,7 +275,8 @@ class Program
                 case "part2-q3":
                     if (args.Length > 1)
                     {
-                        Console.WriteLine("part2-q3");
+                        int answerP1Q3 = getPart2Question3(args, strProtocolHeader);
+                        Console.WriteLine(answerP1Q3);
                     }
                     else
                     {
